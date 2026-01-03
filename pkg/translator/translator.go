@@ -1,12 +1,16 @@
 // Package translator provides the main SAM to CloudFormation transformation orchestrator.
 package translator
 
+import (
+	"github.com/lex00/cloudformation-schema-go/spec"
+)
+
 // Version is the translator library version.
 const Version = "0.1.0"
 
 // Translator transforms SAM templates to CloudFormation.
 type Translator struct {
-	// TODO: Add fields for plugins, policy templates, etc.
+	schema *spec.Spec
 }
 
 // New creates a new Translator instance.

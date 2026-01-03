@@ -9,12 +9,12 @@ import (
 
 // mockPlugin is a test plugin for testing priority ordering.
 type mockPlugin struct {
-	name           string
-	priority       int
-	beforeCalled   *[]string
-	afterCalled    *[]string
-	beforeErr      error
-	afterErr       error
+	name         string
+	priority     int
+	beforeCalled *[]string
+	afterCalled  *[]string
+	beforeErr    error
+	afterErr     error
 }
 
 func (p *mockPlugin) Name() string {

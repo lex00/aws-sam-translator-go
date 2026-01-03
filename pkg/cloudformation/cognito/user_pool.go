@@ -73,16 +73,16 @@ type PreTokenGenerationConfig struct {
 type CognitoTrigger string
 
 const (
-	TriggerPreSignUp                    CognitoTrigger = "PreSignUp"
-	TriggerPostConfirmation             CognitoTrigger = "PostConfirmation"
-	TriggerPreAuthentication            CognitoTrigger = "PreAuthentication"
-	TriggerPostAuthentication           CognitoTrigger = "PostAuthentication"
-	TriggerPreTokenGeneration           CognitoTrigger = "PreTokenGeneration"
-	TriggerCustomMessage                CognitoTrigger = "CustomMessage"
-	TriggerUserMigration                CognitoTrigger = "UserMigration"
-	TriggerDefineAuthChallenge          CognitoTrigger = "DefineAuthChallenge"
-	TriggerCreateAuthChallenge          CognitoTrigger = "CreateAuthChallenge"
-	TriggerVerifyAuthChallengeResponse  CognitoTrigger = "VerifyAuthChallengeResponse"
+	TriggerPreSignUp                   CognitoTrigger = "PreSignUp"
+	TriggerPostConfirmation            CognitoTrigger = "PostConfirmation"
+	TriggerPreAuthentication           CognitoTrigger = "PreAuthentication"
+	TriggerPostAuthentication          CognitoTrigger = "PostAuthentication"
+	TriggerPreTokenGeneration          CognitoTrigger = "PreTokenGeneration"
+	TriggerCustomMessage               CognitoTrigger = "CustomMessage"
+	TriggerUserMigration               CognitoTrigger = "UserMigration"
+	TriggerDefineAuthChallenge         CognitoTrigger = "DefineAuthChallenge"
+	TriggerCreateAuthChallenge         CognitoTrigger = "CreateAuthChallenge"
+	TriggerVerifyAuthChallengeResponse CognitoTrigger = "VerifyAuthChallengeResponse"
 )
 
 // GetLambdaConfigProperty returns the LambdaConfig property name for a trigger.

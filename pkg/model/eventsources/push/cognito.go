@@ -85,10 +85,10 @@ func (h *CognitoEventSourceHandler) GenerateResources(
 	event *CognitoEvent,
 ) (map[string]interface{}, error) {
 	if event.UserPool == nil {
-		return nil, fmt.Errorf("Cognito event source requires a UserPool property")
+		return nil, fmt.Errorf("cognito event source requires a UserPool property")
 	}
 	if event.Trigger == nil {
-		return nil, fmt.Errorf("Cognito event source requires a Trigger property")
+		return nil, fmt.Errorf("cognito event source requires a Trigger property")
 	}
 
 	resources := make(map[string]interface{})
@@ -146,11 +146,11 @@ func (h *CognitoEventSourceHandler) GetLambdaConfigUpdate(
 ) (string, interface{}, error) {
 	trigger, ok := event.Trigger.(string)
 	if !ok {
-		return "", nil, fmt.Errorf("Trigger must be a string, got %T", event.Trigger)
+		return "", nil, fmt.Errorf("trigger must be a string, got %T", event.Trigger)
 	}
 
 	if !ValidCognitoTriggers[CognitoTriggerType(trigger)] {
-		return "", nil, fmt.Errorf("invalid Cognito trigger type: %s", trigger)
+		return "", nil, fmt.Errorf("invalid cognito trigger type: %s", trigger)
 	}
 
 	// Return the trigger name and the function ARN to set
@@ -164,16 +164,16 @@ func (h *CognitoEventSourceHandler) GetLambdaConfigUpdate(
 // Validate validates the Cognito event configuration.
 func (h *CognitoEventSourceHandler) Validate(event *CognitoEvent) error {
 	if event.UserPool == nil {
-		return fmt.Errorf("Cognito event source requires a UserPool property")
+		return fmt.Errorf("cognito event source requires a UserPool property")
 	}
 	if event.Trigger == nil {
-		return fmt.Errorf("Cognito event source requires a Trigger property")
+		return fmt.Errorf("cognito event source requires a Trigger property")
 	}
 
 	// Validate trigger type if it's a string
 	if trigger, ok := event.Trigger.(string); ok {
 		if !ValidCognitoTriggers[CognitoTriggerType(trigger)] {
-			return fmt.Errorf("invalid Cognito trigger type: %s", trigger)
+			return fmt.Errorf("invalid cognito trigger type: %s", trigger)
 		}
 	}
 

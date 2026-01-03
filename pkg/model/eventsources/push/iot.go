@@ -52,7 +52,7 @@ func (h *IoTRuleEventSourceHandler) GenerateResources(
 	event *IoTRuleEvent,
 ) (map[string]interface{}, error) {
 	if event.Sql == nil {
-		return nil, fmt.Errorf("IoTRule event source requires a Sql property")
+		return nil, fmt.Errorf("ioTRule event source requires a Sql property")
 	}
 
 	resources := make(map[string]interface{})
@@ -97,7 +97,7 @@ func (h *IoTRuleEventSourceHandler) GenerateResources(
 // Validate validates the IoTRule event configuration.
 func (h *IoTRuleEventSourceHandler) Validate(event *IoTRuleEvent) error {
 	if event.Sql == nil {
-		return fmt.Errorf("IoTRule event source requires a Sql property")
+		return fmt.Errorf("ioTRule event source requires a Sql property")
 	}
 	return nil
 }

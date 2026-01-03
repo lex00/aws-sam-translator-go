@@ -1,9 +1,13 @@
 package intrinsics
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // JoinAction handles the Fn::Join intrinsic function.
-// This is a pass-through handler that preserves the intrinsic for CloudFormation.
+// It evaluates the join when all values are static strings, otherwise
+// preserves the intrinsic for CloudFormation.
 type JoinAction struct{}
 
 // Name returns the intrinsic function name.
@@ -11,9 +15,7 @@ func (a *JoinAction) Name() string {
 	return "Fn::Join"
 }
 
-// Resolve preserves the Fn::Join intrinsic for CloudFormation.
-// While we could evaluate joins with static values, we preserve them
-// for CloudFormation to maintain template fidelity.
+// Resolve evaluates Fn::Join if all values are strings, otherwise preserves it.
 func (a *JoinAction) Resolve(ctx *ResolveContext, value interface{}) (interface{}, error) {
 	arr, ok := value.([]interface{})
 	if !ok {
@@ -22,6 +24,30 @@ func (a *JoinAction) Resolve(ctx *ResolveContext, value interface{}) (interface{
 	if len(arr) != 2 {
 		return nil, NewIntrinsicError("Fn::Join", fmt.Sprintf("expected 2 elements, got %d", len(arr)))
 	}
+
+	// Try to evaluate statically if delimiter and all values are strings
+	delimiter, delimOk := arr[0].(string)
+	values, valuesOk := arr[1].([]interface{})
+
+	if delimOk && valuesOk {
+		// Check if all values are strings
+		strValues := make([]string, 0, len(values))
+		allStrings := true
+		for _, v := range values {
+			if s, ok := v.(string); ok {
+				strValues = append(strValues, s)
+			} else {
+				allStrings = false
+				break
+			}
+		}
+
+		if allStrings {
+			return strings.Join(strValues, delimiter), nil
+		}
+	}
+
+	// Cannot evaluate statically - preserve for CloudFormation
 	return map[string]interface{}{"Fn::Join": value}, nil
 }
 

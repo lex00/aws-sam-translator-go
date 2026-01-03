@@ -7,6 +7,17 @@ import (
 	"github.com/lex00/aws-sam-translator-go/pkg/types"
 )
 
+// NoValue is a sentinel type representing AWS::NoValue.
+// When a Ref to AWS::NoValue is resolved, this value is returned to indicate
+// that the property should be removed from the template.
+type NoValue struct{}
+
+// IsNoValue checks if a value is the NoValue sentinel.
+func IsNoValue(v interface{}) bool {
+	_, ok := v.(NoValue)
+	return ok
+}
+
 // ResolveContext provides context for resolving intrinsic functions.
 type ResolveContext struct {
 	// Template is the full template being processed
@@ -21,8 +32,38 @@ type ResolveContext struct {
 	PseudoParameters map[string]string
 }
 
-// NewResolveContext creates a new ResolveContext with initialized maps.
+// ResolveContextOptions configures the ResolveContext creation.
+type ResolveContextOptions struct {
+	// AccountId is the AWS account ID (default: "123456789012")
+	AccountId string
+	// Region is the AWS region (default: "us-east-1")
+	Region string
+	// StackName is the CloudFormation stack name (default: "sam-app")
+	StackName string
+	// Partition is the AWS partition (default: "aws")
+	Partition string
+	// URLSuffix is the AWS URL suffix (default: "amazonaws.com")
+	URLSuffix string
+}
+
+// DefaultResolveContextOptions returns the default options for ResolveContext.
+func DefaultResolveContextOptions() ResolveContextOptions {
+	return ResolveContextOptions{
+		AccountId: "123456789012",
+		Region:    "us-east-1",
+		StackName: "sam-app",
+		Partition: "aws",
+		URLSuffix: "amazonaws.com",
+	}
+}
+
+// NewResolveContext creates a new ResolveContext with default options.
 func NewResolveContext(template *types.Template) *ResolveContext {
+	return NewResolveContextWithOptions(template, DefaultResolveContextOptions())
+}
+
+// NewResolveContextWithOptions creates a new ResolveContext with the given options.
+func NewResolveContextWithOptions(template *types.Template, opts ResolveContextOptions) *ResolveContext {
 	ctx := &ResolveContext{
 		Template:         template,
 		Parameters:       make(map[string]interface{}),
@@ -31,14 +72,16 @@ func NewResolveContext(template *types.Template) *ResolveContext {
 		PseudoParameters: make(map[string]string),
 	}
 
-	// Initialize default pseudo-parameters
-	ctx.PseudoParameters["AWS::AccountId"] = "123456789012"
-	ctx.PseudoParameters["AWS::Region"] = "us-east-1"
-	ctx.PseudoParameters["AWS::StackName"] = "sam-app"
-	ctx.PseudoParameters["AWS::StackId"] = "arn:aws:cloudformation:us-east-1:123456789012:stack/sam-app/guid"
-	ctx.PseudoParameters["AWS::URLSuffix"] = "amazonaws.com"
-	ctx.PseudoParameters["AWS::Partition"] = "aws"
-	ctx.PseudoParameters["AWS::NoValue"] = ""
+	// Initialize pseudo-parameters from options
+	ctx.PseudoParameters["AWS::AccountId"] = opts.AccountId
+	ctx.PseudoParameters["AWS::Region"] = opts.Region
+	ctx.PseudoParameters["AWS::StackName"] = opts.StackName
+	ctx.PseudoParameters["AWS::StackId"] = fmt.Sprintf(
+		"arn:aws:cloudformation:%s:%s:stack/%s/guid",
+		opts.Region, opts.AccountId, opts.StackName,
+	)
+	ctx.PseudoParameters["AWS::URLSuffix"] = opts.URLSuffix
+	ctx.PseudoParameters["AWS::Partition"] = opts.Partition
 
 	// Extract parameter defaults from template
 	if template != nil && template.Parameters != nil {

@@ -15,18 +15,20 @@ func (a *RefAction) Name() string {
 // For parameters, it returns the parameter value.
 // For resources, it returns the resource's physical ID (logical ID for now).
 // For pseudo-parameters (AWS::*), it returns the pseudo-parameter value.
+// For AWS::NoValue, it returns the NoValue sentinel (use IsNoValue to check).
 func (a *RefAction) Resolve(ctx *ResolveContext, value interface{}) (interface{}, error) {
 	refName, ok := value.(string)
 	if !ok {
 		return nil, NewIntrinsicError("Ref", fmt.Sprintf("expected string, got %T", value))
 	}
 
-	// Check pseudo-parameters first
+	// AWS::NoValue is special - return sentinel to indicate property removal
+	if refName == "AWS::NoValue" {
+		return NoValue{}, nil
+	}
+
+	// Check pseudo-parameters
 	if pseudo, ok := ctx.PseudoParameters[refName]; ok {
-		// AWS::NoValue is special - return nil to indicate removal
-		if refName == "AWS::NoValue" {
-			return nil, nil
-		}
 		return pseudo, nil
 	}
 

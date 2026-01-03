@@ -51,8 +51,8 @@ func TestRefAction_ResolveAWSNoValue(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if result != nil {
-		t.Errorf("expected nil for AWS::NoValue, got %v", result)
+	if !IsNoValue(result) {
+		t.Errorf("expected NoValue sentinel for AWS::NoValue, got %v", result)
 	}
 }
 

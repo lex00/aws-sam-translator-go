@@ -12,11 +12,30 @@ func TestJoinAction_Name(t *testing.T) {
 	}
 }
 
-func TestJoinAction_Resolve(t *testing.T) {
+func TestJoinAction_ResolveStaticStrings(t *testing.T) {
 	action := &JoinAction{}
 	ctx := NewResolveContext(nil)
 
 	input := []interface{}{"-", []interface{}{"a", "b", "c"}}
+
+	result, err := action.Resolve(ctx, input)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// Static string values are evaluated at transform time
+	expected := "a-b-c"
+	if result != expected {
+		t.Errorf("expected %v, got %v", expected, result)
+	}
+}
+
+func TestJoinAction_ResolvePassthrough(t *testing.T) {
+	action := &JoinAction{}
+	ctx := NewResolveContext(nil)
+
+	// Input with non-string value should pass through
+	input := []interface{}{"-", []interface{}{"a", map[string]interface{}{"Ref": "SomeParam"}, "c"}}
 
 	result, err := action.Resolve(ctx, input)
 	if err != nil {

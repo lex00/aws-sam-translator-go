@@ -184,3 +184,65 @@ func TestIntrinsicError(t *testing.T) {
 		t.Errorf("expected %q, got %q", expected, err.Error())
 	}
 }
+
+func TestNewResolveContextWithOptions(t *testing.T) {
+	opts := ResolveContextOptions{
+		AccountId: "999888777666",
+		Region:    "eu-central-1",
+		StackName: "my-custom-stack",
+		Partition: "aws-cn",
+		URLSuffix: "amazonaws.com.cn",
+	}
+
+	ctx := NewResolveContextWithOptions(nil, opts)
+
+	if ctx.PseudoParameters["AWS::AccountId"] != "999888777666" {
+		t.Errorf("expected AccountId = 999888777666, got %s", ctx.PseudoParameters["AWS::AccountId"])
+	}
+	if ctx.PseudoParameters["AWS::Region"] != "eu-central-1" {
+		t.Errorf("expected Region = eu-central-1, got %s", ctx.PseudoParameters["AWS::Region"])
+	}
+	if ctx.PseudoParameters["AWS::StackName"] != "my-custom-stack" {
+		t.Errorf("expected StackName = my-custom-stack, got %s", ctx.PseudoParameters["AWS::StackName"])
+	}
+	if ctx.PseudoParameters["AWS::Partition"] != "aws-cn" {
+		t.Errorf("expected Partition = aws-cn, got %s", ctx.PseudoParameters["AWS::Partition"])
+	}
+	if ctx.PseudoParameters["AWS::URLSuffix"] != "amazonaws.com.cn" {
+		t.Errorf("expected URLSuffix = amazonaws.com.cn, got %s", ctx.PseudoParameters["AWS::URLSuffix"])
+	}
+	// Check StackId is constructed from options
+	expectedStackId := "arn:aws:cloudformation:eu-central-1:999888777666:stack/my-custom-stack/guid"
+	if ctx.PseudoParameters["AWS::StackId"] != expectedStackId {
+		t.Errorf("expected StackId = %s, got %s", expectedStackId, ctx.PseudoParameters["AWS::StackId"])
+	}
+}
+
+func TestDefaultResolveContextOptions(t *testing.T) {
+	opts := DefaultResolveContextOptions()
+
+	if opts.AccountId != "123456789012" {
+		t.Errorf("expected default AccountId = 123456789012, got %s", opts.AccountId)
+	}
+	if opts.Region != "us-east-1" {
+		t.Errorf("expected default Region = us-east-1, got %s", opts.Region)
+	}
+	if opts.StackName != "sam-app" {
+		t.Errorf("expected default StackName = sam-app, got %s", opts.StackName)
+	}
+}
+
+func TestIsNoValue(t *testing.T) {
+	if !IsNoValue(NoValue{}) {
+		t.Error("IsNoValue should return true for NoValue{}")
+	}
+	if IsNoValue("string") {
+		t.Error("IsNoValue should return false for string")
+	}
+	if IsNoValue(nil) {
+		t.Error("IsNoValue should return false for nil")
+	}
+	if IsNoValue(123) {
+		t.Error("IsNoValue should return false for int")
+	}
+}

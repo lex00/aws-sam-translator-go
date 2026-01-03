@@ -11,11 +11,11 @@ import (
 // Resolver handles intrinsic function resolution across a template with support
 // for pre-order tree traversal, logical ID mutation, and placeholder protection.
 type Resolver struct {
-	registry      *Registry
-	context       *ResolveContext
-	dependencies  *DependencyTracker
-	logicalIDMap  map[string]string // Maps old logical IDs to new logical IDs
-	placeholders  map[string]interface{}
+	registry     *Registry
+	context      *ResolveContext
+	dependencies *DependencyTracker
+	logicalIDMap map[string]string // Maps old logical IDs to new logical IDs
+	placeholders map[string]interface{}
 }
 
 // ResolverOption configures the Resolver.

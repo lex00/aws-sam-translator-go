@@ -167,8 +167,7 @@ type ResourceRef struct {
 
 // ResourceRefCollector collects all resource references in a template.
 type ResourceRefCollector struct {
-	refs     []ResourceRef
-	template interface{}
+	refs []ResourceRef
 }
 
 // NewResourceRefCollector creates a new ResourceRefCollector.

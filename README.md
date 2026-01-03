@@ -14,12 +14,18 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 - [x] **Phase 2A**: Intrinsics resolver with tree traversal, dependency tracking
 - [x] **Phase 2B-2C**: Logical ID and ARN generators with partition support
 - [x] **Phase 2D**: Policy template processor with 81 SAM policy templates
+- [x] **Phase 3A**: IAM CloudFormation resource models (Role, Policy, ManagedPolicy)
+- [x] **Phase 3B**: Lambda CloudFormation resource models (Function, Version, Alias, Permission, EventSourceMapping, LayerVersion)
+- [x] **Phase 3C**: API Gateway CloudFormation resource models (RestApi, Stage, Deployment, Authorizer, Method, Resource; V2 Api, Stage, Integration, Route, Authorizer)
+- [x] **Phase 3D**: Additional CloudFormation resource models (DynamoDB, EventBridge, Step Functions, SNS, SQS, S3, CloudWatch Logs)
 - [x] **Phase 10** (partial): Test fixtures - 2,583 fixtures ported from upstream Python aws-sam-translator
 
 ### In Progress
 
-- [ ] Phase 3: CloudFormation models (IAM, Lambda, API Gateway)
-- [ ] Phase 4-9: Event sources, SAM transformers
+- [ ] Phase 4: Event source connectors
+- [ ] Phase 5-7: SAM resource transformers
+- [ ] Phase 8: Plugin system
+- [ ] Phase 9: Main translator and CLI
 - [ ] Phase 10: Remaining test suite (unit tests, Python comparison tool)
 
 ## Installation

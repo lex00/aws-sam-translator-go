@@ -70,6 +70,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Support for `Ref` and `Fn::Sub` intrinsic function parameter substitution
   - API: `New()`, `Expand()`, `ExpandStatements()`, `HasTemplate()`, `GetTemplate()`, `TemplateNames()`
 
+- **IAM CloudFormation Resource Models** (Phase 3A - #7)
+  - `pkg/model/iam/role.go` - IAM Role with AssumeRolePolicyDocument, ManagedPolicyArns, Policies
+  - `pkg/model/iam/policy.go` - IAM Policy with PolicyDocument
+  - `pkg/model/iam/managed.go` - IAM ManagedPolicy
+  - `pkg/model/iam/document.go` - PolicyDocument structure with Statement support
+
+- **Lambda CloudFormation Resource Models** (Phase 3B - #8)
+  - `pkg/model/lambda/function.go` - Lambda Function with all configuration options
+  - `pkg/model/lambda/version.go` - Lambda Version for function versioning
+  - `pkg/model/lambda/alias.go` - Lambda Alias with routing configuration
+  - `pkg/model/lambda/permission.go` - Lambda Permission for resource-based policies
+  - `pkg/model/lambda/eventsourcemapping.go` - EventSourceMapping for event source triggers
+  - `pkg/model/lambda/layer.go` - Lambda LayerVersion
+
+- **API Gateway CloudFormation Resource Models** (Phase 3C - #9)
+  - `pkg/cloudformation/apigateway/` - REST API resources:
+    - `restapi.go` - RestApi with endpoint configuration, CORS, and policies
+    - `stage.go` - Stage with caching, logging, and canary settings
+    - `deployment.go` - Deployment with stage descriptions
+    - `authorizer.go` - TOKEN, REQUEST, and COGNITO authorizer types
+    - `method.go` - HTTP method with integration configuration
+    - `resource.go` - API resource path definitions
+  - `pkg/cloudformation/apigatewayv2/` - HTTP/WebSocket API resources:
+    - `api.go` - HTTP/WebSocket API with CORS and protocol settings
+    - `stage.go` - Stage with auto-deploy and access logging
+    - `integration.go` - Lambda, HTTP, and AWS service integrations
+    - `route.go` - Route definitions with authorization
+    - `authorizer.go` - JWT and REQUEST authorizer types
+
+- **Additional CloudFormation Resource Models** (Phase 3D - #10)
+  - `pkg/cloudformation/dynamodb/table.go` - DynamoDB Table with GSI, LSI, streams, TTL
+  - `pkg/cloudformation/events/rule.go` - EventBridge Rule with targets
+  - `pkg/cloudformation/stepfunctions/statemachine.go` - Step Functions StateMachine with logging
+  - `pkg/cloudformation/sns/topic.go` - SNS Topic
+  - `pkg/cloudformation/sns/subscription.go` - SNS Subscription
+  - `pkg/cloudformation/sqs/queue.go` - SQS Queue with FIFO and DLQ support
+  - `pkg/cloudformation/logs/loggroup.go` - CloudWatch Logs LogGroup
+  - `pkg/cloudformation/s3/bucket.go` - S3 Bucket with notification configuration
+
 - **Core Infrastructure**
   - `pkg/types/` - SAM and CloudFormation type definitions
   - `pkg/errors/` - Error types (InvalidDocumentException, InvalidResourceException, InvalidEventException)

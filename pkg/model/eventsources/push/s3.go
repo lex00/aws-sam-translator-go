@@ -124,8 +124,8 @@ func (s *S3EventSource) WithSuffixFilter(suffix interface{}) *S3EventSource {
 
 // ToCloudFormationResources generates CloudFormation resources for the S3 event source.
 // This creates:
-//   1. AWS::Lambda::Permission - Grants S3 permission to invoke the Lambda function
-//   2. S3 bucket notification configuration (returned as metadata for bucket modification)
+//  1. AWS::Lambda::Permission - Grants S3 permission to invoke the Lambda function
+//  2. S3 bucket notification configuration (returned as metadata for bucket modification)
 //
 // The bucket property itself is not created, as the bucket is assumed to exist.
 // The caller must apply the notification configuration to the bucket.

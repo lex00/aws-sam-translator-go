@@ -345,11 +345,12 @@ func TestApi_getResourceId(t *testing.T) {
 
 			// Check the structure
 			if resMap, ok := resourceId.(map[string]interface{}); ok {
-				if tt.wantType == "GetAtt" {
+				switch tt.wantType {
+				case "GetAtt":
 					if _, hasGetAtt := resMap["Fn::GetAtt"]; !hasGetAtt {
 						t.Errorf("Api.getResourceId() expected Fn::GetAtt, got %v", resMap)
 					}
-				} else if tt.wantType == "Ref" {
+				case "Ref":
 					if _, hasRef := resMap["Ref"]; !hasRef {
 						t.Errorf("Api.getResourceId() expected Ref, got %v", resMap)
 					}

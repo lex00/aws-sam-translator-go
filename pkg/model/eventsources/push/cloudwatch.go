@@ -77,8 +77,17 @@ type DeadLetterConfig struct {
 	// Arn is the ARN of the SQS queue to use as the dead-letter queue.
 	Arn interface{} `json:"Arn,omitempty" yaml:"Arn,omitempty"`
 
-	// Type is the type of dead-letter config. Currently only "SQS" is supported.
+	// Type is the type of dead-letter config. Valid values: "SQS", "ARN".
+	// If "SQS", QueueLogicalId must be specified. If "ARN", TargetArn must be specified.
 	Type string `json:"Type,omitempty" yaml:"Type,omitempty"`
+
+	// TargetArn is the ARN of the dead-letter queue (optional).
+	// Used when Type is "ARN".
+	TargetArn interface{} `json:"TargetArn,omitempty" yaml:"TargetArn,omitempty"`
+
+	// QueueLogicalId is the logical ID of an SQS queue in the template (optional).
+	// Used when Type is "SQS".
+	QueueLogicalId string `json:"QueueLogicalId,omitempty" yaml:"QueueLogicalId,omitempty"`
 }
 
 // RetryPolicy specifies retry policy settings.

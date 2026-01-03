@@ -66,33 +66,6 @@ type ScheduleEvent struct {
 	RetryPolicy *RetryPolicy `json:"RetryPolicy,omitempty" yaml:"RetryPolicy,omitempty"`
 }
 
-// DeadLetterConfig specifies the dead-letter queue configuration for event targets.
-type DeadLetterConfig struct {
-	// Type specifies the type of dead-letter config (optional).
-	// Valid values: "SQS", "ARN". If "SQS", QueueLogicalId must be specified.
-	// If "ARN", TargetArn must be specified.
-	Type string `json:"Type,omitempty" yaml:"Type,omitempty"`
-
-	// TargetArn is the ARN of the dead-letter queue (optional).
-	// Used when Type is "ARN".
-	TargetArn interface{} `json:"TargetArn,omitempty" yaml:"TargetArn,omitempty"`
-
-	// QueueLogicalId is the logical ID of an SQS queue in the template (optional).
-	// Used when Type is "SQS".
-	QueueLogicalId string `json:"QueueLogicalId,omitempty" yaml:"QueueLogicalId,omitempty"`
-}
-
-// RetryPolicy specifies the retry policy for event targets.
-type RetryPolicy struct {
-	// MaximumEventAgeInSeconds is the maximum age of an event in seconds (optional).
-	// Valid range: 60-86400 (1 minute to 24 hours).
-	MaximumEventAgeInSeconds interface{} `json:"MaximumEventAgeInSeconds,omitempty" yaml:"MaximumEventAgeInSeconds,omitempty"`
-
-	// MaximumRetryAttempts is the maximum number of retry attempts (optional).
-	// Valid range: 0-185.
-	MaximumRetryAttempts interface{} `json:"MaximumRetryAttempts,omitempty" yaml:"MaximumRetryAttempts,omitempty"`
-}
-
 // ToCloudFormationResources converts the Schedule event source to CloudFormation resources.
 // It generates:
 //  1. An AWS::Events::Rule resource with the schedule expression and Lambda target
@@ -194,13 +167,15 @@ func (s *ScheduleEvent) determineState() interface{} {
 			return "DISABLED"
 		case string:
 			// If it's already a string like "true" or "false", convert
-			if v == "true" {
+			switch v {
+			case "true":
 				return "ENABLED"
-			} else if v == "false" {
+			case "false":
 				return "DISABLED"
+			default:
+				// Otherwise, assume it's an intrinsic function or similar, pass through
+				return s.Enabled
 			}
-			// Otherwise, assume it's an intrinsic function or similar, pass through
-			return s.Enabled
 		default:
 			// For intrinsic functions and other complex types, pass through
 			return s.Enabled
@@ -300,12 +275,13 @@ func (s *ScheduleEvent) targetToMap(target events.Target) map[string]interface{}
 	}
 
 	if target.InputTransformer != nil {
-		result["InputTransformer"] = map[string]interface{}{
+		inputTransformer := map[string]interface{}{
 			"InputTemplate": target.InputTransformer.InputTemplate,
 		}
 		if len(target.InputTransformer.InputPathsMap) > 0 {
-			result["InputTransformer"].(map[string]interface{})["InputPathsMap"] = target.InputTransformer.InputPathsMap
+			inputTransformer["InputPathsMap"] = target.InputTransformer.InputPathsMap
 		}
+		result["InputTransformer"] = inputTransformer
 	}
 
 	if target.DeadLetterConfig != nil {

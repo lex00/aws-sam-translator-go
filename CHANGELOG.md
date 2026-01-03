@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Test Fixtures** (Phase 10 - #23)
+  - Ported 2,583 test fixtures from upstream Python [aws-sam-translator](https://github.com/aws/serverless-application-model)
+  - 775 input SAM YAML templates (513 success + 262 error cases)
+  - 778 expected CloudFormation JSON outputs (default partition)
+  - 515 partition-specific outputs for `aws-cn`
+  - 515 partition-specific outputs for `aws-us-gov`
+  - Coverage for all SAM resource types: Function, Api, HttpApi, SimpleTable, LayerVersion, StateMachine, Connector, Application, GraphQLApi
+
 - **Intrinsic Function Handlers** (Phase 1C - #3)
   - `pkg/intrinsics/actions.go` - Core types: `Action` interface, `Registry`, `ResolveContext`
   - `pkg/intrinsics/ref.go` - `RefAction` for `Ref` intrinsics (parameters, resources, pseudo-parameters)

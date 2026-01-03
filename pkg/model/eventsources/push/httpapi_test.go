@@ -481,9 +481,6 @@ func TestHttpApiEvent_AllFields(t *testing.T) {
 		TimeoutInMillis: 10000,
 	}
 
-	if event == nil {
-		t.Fatal("event should not be nil")
-	}
 	if event.Method != "GET" {
 		t.Errorf("expected Method 'GET', got %v", event.Method)
 	}

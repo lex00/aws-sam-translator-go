@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **CloudFormation Model Tests for IoT and Cognito** (Phase 4A - #46)
+  - `pkg/cloudformation/iot/topic_rule_test.go` - 100% test coverage for IoT TopicRule model
+  - `pkg/cloudformation/cognito/user_pool_test.go` - 100% test coverage for Cognito LambdaConfig and trigger types
+  - Tests for NewTopicRule constructor, builder methods, and ToCloudFormation output
+  - Tests for all 10 Cognito trigger type constants and GetLambdaConfigProperty function
+
 - **Logical ID and ARN Generators** (Phase 2B-2C - #5)
   - `pkg/translator/logical_id.go` - Hash-based LogicalIdGenerator with SHA256 for deterministic, stable CloudFormation logical IDs
   - `pkg/translator/arn.go` - Partition-aware ArnGenerator supporting aws, aws-cn, aws-us-gov partitions

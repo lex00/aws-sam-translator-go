@@ -10,12 +10,14 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 
 - [x] **Phase 1C**: Intrinsic function handlers (Ref, Fn::Sub, Fn::GetAtt, Fn::FindInMap, pass-through handlers)
 - [x] **Phase 2D**: Policy template processor with 81 SAM policy templates
+- [x] **Phase 10** (partial): Test fixtures - 2,583 fixtures ported from upstream Python aws-sam-translator
 
 ### In Progress
 
 - [ ] Phase 1A-1B: Core types, parser
 - [ ] Phase 2A-2C: Intrinsics resolver, ID/ARN generators
-- [ ] Phase 3-10: CloudFormation models, event sources, SAM transformers
+- [ ] Phase 3-9: CloudFormation models, event sources, SAM transformers
+- [ ] Phase 10: Remaining test suite (unit tests, Python comparison tool)
 
 ## Installation
 

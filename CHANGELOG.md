@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Logical ID and ARN Generators** (Phase 2B-2C - #5)
+  - `pkg/translator/logical_id.go` - Hash-based LogicalIdGenerator with SHA256 for deterministic, stable CloudFormation logical IDs
+  - `pkg/translator/arn.go` - Partition-aware ArnGenerator supporting aws, aws-cn, aws-us-gov partitions
+  - `pkg/translator/verify_id.go` - IDVerifier for logical ID validation, duplicate detection, and ARN verification
+  - Support for 15+ AWS services: Lambda, API Gateway, IAM, S3, DynamoDB, SNS, SQS, Kinesis, Step Functions, EventBridge, CloudWatch, Secrets Manager, KMS, Cognito, CodeDeploy
+  - API deployment ID recalculation on OpenAPI spec change
+  - IDStabilityChecker for deterministic ID generation verification
+
+- **Intrinsics Resolver with Tree Traversal** (Phase 2A - #4)
+  - `pkg/intrinsics/resolver.go` - Pre-order tree traversal resolver for nested intrinsic function resolution
+  - `pkg/intrinsics/resource_refs.go` - DependencyTracker for building resource dependency graphs
+  - Logical ID mutation support for SAM transformations
+  - Placeholder protection for CloudFormation runtime intrinsics (Fn::ImportValue, Fn::GetAZs)
+  - Topological sort for processing resources in dependency order
+  - ResourceRefCollector for scanning templates for Ref and GetAtt references
+
 - **YAML/JSON Parser with Intrinsic Support** (Phase 1B - #2)
   - `pkg/parser/yaml.go` - Custom YAML tag handling for all CloudFormation intrinsic short-form tags (!Ref, !Sub, !GetAtt, !Join, !If, !Select, !FindInMap, !Base64, !Cidr, !GetAZs, !ImportValue, !Split, !Transform, !And, !Equals, !Not, !Or, !Condition)
   - `pkg/parser/json.go` - JSON parsing with intrinsic structure preservation

@@ -8,11 +8,12 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 
 ### Completed
 
+- [x] **Phase 1C**: Intrinsic function handlers (Ref, Fn::Sub, Fn::GetAtt, Fn::FindInMap, pass-through handlers)
 - [x] **Phase 2D**: Policy template processor with 81 SAM policy templates
 
 ### In Progress
 
-- [ ] Phase 1A-1C: Core types, parser, intrinsic handlers
+- [ ] Phase 1A-1B: Core types, parser
 - [ ] Phase 2A-2C: Intrinsics resolver, ID/ARN generators
 - [ ] Phase 3-10: CloudFormation models, event sources, SAM transformers
 
@@ -23,6 +24,39 @@ go get github.com/lex00/aws-sam-translator-go
 ```
 
 ## Usage
+
+### Intrinsic Function Resolution
+
+```go
+import (
+    "github.com/lex00/aws-sam-translator-go/pkg/intrinsics"
+    "github.com/lex00/aws-sam-translator-go/pkg/types"
+)
+
+// Create a resolve context with default pseudo-parameters
+ctx := intrinsics.NewResolveContext(template)
+
+// Or with custom options
+ctx := intrinsics.NewResolveContextWithOptions(template, intrinsics.ResolveContextOptions{
+    AccountId: "123456789012",
+    Region:    "us-west-2",
+    StackName: "my-stack",
+})
+
+// Set parameter values
+ctx.SetParameter("Environment", "production")
+
+// Create registry and resolve intrinsics
+registry := intrinsics.NewRegistry()
+result, err := registry.Resolve(ctx, map[string]interface{}{
+    "Fn::Sub": "arn:aws:s3:::${BucketName}-${AWS::Region}",
+})
+
+// Check for AWS::NoValue
+if intrinsics.IsNoValue(result) {
+    // Property should be removed
+}
+```
 
 ### Policy Template Expansion
 

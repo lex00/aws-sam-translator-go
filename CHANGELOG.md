@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Intrinsic Function Handlers** (Phase 1C - #3)
+  - `pkg/intrinsics/actions.go` - Core types: `Action` interface, `Registry`, `ResolveContext`
+  - `pkg/intrinsics/ref.go` - `RefAction` for `Ref` intrinsics (parameters, resources, pseudo-parameters)
+  - `pkg/intrinsics/sub.go` - `SubAction` for `Fn::Sub` variable substitution (string and array forms)
+  - `pkg/intrinsics/getatt.go` - `GetAttAction` for `Fn::GetAtt` resource attribute lookups
+  - `pkg/intrinsics/findinmap.go` - `FindInMapAction` for `Fn::FindInMap` mapping resolution
+  - `pkg/intrinsics/passthrough.go` - Pass-through handlers for `Fn::Join`, `Fn::If`, `Fn::Select`, `Fn::Base64`, `Fn::GetAZs`, `Fn::Split`, `Fn::ImportValue`, `Condition`
+  - `ResolveContextOptions` for configurable pseudo-parameters (AccountId, Region, StackName, etc.)
+  - `NoValue` sentinel type and `IsNoValue()` helper for `AWS::NoValue` handling
+  - Static evaluation for `Fn::Join` when all values are strings
+  - Nested intrinsic function resolution
+  - 113 comprehensive tests
+
 - **Policy Template Processor** (Phase 2D - #6)
   - `pkg/policy/processor.go` - Core processor with template loading, parameter substitution, and IAM statement generation
   - `pkg/policy/templates.json` - 81 SAM policy templates embedded at compile time via `go:embed`

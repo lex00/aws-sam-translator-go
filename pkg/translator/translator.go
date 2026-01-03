@@ -13,6 +13,11 @@ type Translator struct {
 	schema *spec.Spec
 }
 
+// Schema returns the CloudFormation schema.
+func (t *Translator) Schema() *spec.Spec {
+	return t.schema
+}
+
 // New creates a new Translator instance.
 func New() *Translator {
 	return &Translator{}

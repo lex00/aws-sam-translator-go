@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **YAML/JSON Parser with Intrinsic Support** (Phase 1B - #2)
+  - `pkg/parser/yaml.go` - Custom YAML tag handling for all CloudFormation intrinsic short-form tags (!Ref, !Sub, !GetAtt, !Join, !If, !Select, !FindInMap, !Base64, !Cidr, !GetAZs, !ImportValue, !Split, !Transform, !And, !Equals, !Not, !Or, !Condition)
+  - `pkg/parser/json.go` - JSON parsing with intrinsic structure preservation
+  - `pkg/parser/intrinsics.go` - Intrinsic function detection, validation, and structure checking
+  - `pkg/parser/parser.go` - Enhanced parser with source location tracking (line/column) for error reporting
+  - Automatic conversion of !GetAtt dot notation (`!GetAtt Resource.Attr`) to array form
+  - Template validation and auto-detection of YAML vs JSON format
+  - 24 comprehensive tests
+
+- **Core Types and Region Configuration** (Phase 1A - #1)
+  - `pkg/region/config.go` - AWS partition detection for `aws`, `aws-cn`, and `aws-us-gov` partitions
+  - Region-to-partition mapping functions (`GetPartitionForRegion`, `GetArnPartition`, `GetDNSSuffix`)
+  - Region validation and default region handling
+  - `pkg/utils/utils.go` - Extended with sorting functions (`SortedKeys`, `SortedResourceKeys`, `SortStringSlice`, `UniqueStrings`) for deterministic output
+  - Comparison utilities (`DeepEqual`, `MapContains`, `StringSliceContains`, `MergeMaps`)
+  - Safe accessor functions (`GetStringValue`, `GetMapValue`, `GetSliceValue`)
+  - Comprehensive test coverage for errors, types, utils, and region packages
+
 - **Test Fixtures** (Phase 10 - #23)
   - Ported 2,583 test fixtures from upstream Python [aws-sam-translator](https://github.com/aws/serverless-application-model)
   - 775 input SAM YAML templates (513 success + 262 error cases)

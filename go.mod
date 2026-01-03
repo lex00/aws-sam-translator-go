@@ -1,6 +1,6 @@
 module github.com/lex00/aws-sam-translator-go
 
-go 1.22
+go 1.23
 
 require (
 	github.com/lex00/cloudformation-schema-go v0.7.0

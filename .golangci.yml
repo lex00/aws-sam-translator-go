@@ -14,10 +14,7 @@ linters:
     - gofmt
     - goimports
     - misspell
-
-linters-settings:
-  goimports:
-    local-prefixes: github.com/lex00/aws-sam-translator-go
-
-issues:
-  exclude-use-default: false
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/lex00/aws-sam-translator-go

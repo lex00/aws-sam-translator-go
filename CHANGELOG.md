@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **AWS::Serverless::Function Transformer** (Phase 5A - #13)
+  - `pkg/sam/function.go` - Complete Function transformer implementation
+  - Full Function struct with all SAM properties: Handler, Runtime, CodeUri, ImageUri, PackageType, Description, MemorySize, Timeout, Role, Policies, Environment, Events, Tags, Layers, VpcConfig, FunctionName, Architectures, AutoPublishAlias, DeploymentPreference, ProvisionedConcurrencyConfig, ReservedConcurrentExecutions, Tracing, DeadLetterQueue, KmsKeyArn, EphemeralStorage, SnapStart, FileSystemConfigs, ImageConfig, CodeSigningConfigArn, RuntimeManagementConfig, PermissionsBoundary, FunctionUrlConfig, LoggingConfig, RecursiveLoop
+  - Automatic IAM execution role generation with AWSLambdaBasicExecutionRole
+  - VPC configuration support with AWSLambdaVPCAccessExecutionRole
+  - X-Ray tracing support with AWSXRayDaemonWriteAccess policy
+  - Policy processing: managed policy ARNs, inline policy documents, SAM policy templates
+  - Lambda Version and Alias creation via AutoPublishAlias
+  - Provisioned concurrency configuration
+  - CodeDeploy deployment preferences for gradual rollouts
+  - All 17 event source types: S3, SQS, Kinesis, DynamoDB, Api, HttpApi, Schedule, CloudWatchEvent/EventBridgeRule, SNS, IoTRule, Cognito, MSK, MQ, SelfManagedKafka, CloudWatchLogs, AlexaSkill
+  - Push events (S3, Api, SNS, etc.) create Lambda permissions
+  - Pull events (SQS, Kinesis, DynamoDB, etc.) create EventSourceMappings
+  - `pkg/sam/function_test.go` - 37 comprehensive tests with 100% coverage
+
 - **CloudFormation Model Tests for IoT and Cognito** (Phase 4A - #46)
   - `pkg/cloudformation/iot/topic_rule_test.go` - 100% test coverage for IoT TopicRule model
   - `pkg/cloudformation/cognito/user_pool_test.go` - 100% test coverage for Cognito LambdaConfig and trigger types

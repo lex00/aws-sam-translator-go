@@ -3,6 +3,7 @@ package sam
 
 import (
 	"fmt"
+	"strings"
 )
 
 // AWS CloudFormation type for nested stacks
@@ -190,17 +191,7 @@ func (t *ApplicationTransformer) resolveTemplateURL(location interface{}, ctx *T
 // isSARApplicationID checks if the string is a SAR Application ARN.
 func isSARApplicationID(s string) bool {
 	// SAR ARN format: arn:aws:serverlessrepo:region:account-id:applications/application-name
-	return len(s) > 0 && s[0:4] == "arn:" && contains(s, ":serverlessrepo:")
-}
-
-// contains checks if a string contains a substring.
-func contains(s, substr string) bool {
-	for i := 0; i <= len(s)-len(substr); i++ {
-		if s[i:i+len(substr)] == substr {
-			return true
-		}
-	}
-	return false
+	return len(s) > 4 && s[0:4] == "arn:" && strings.Contains(s, ":serverlessrepo:")
 }
 
 // buildSARTemplateURL creates the TemplateURL for a SAR application.

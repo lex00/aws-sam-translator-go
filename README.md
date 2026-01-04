@@ -189,11 +189,14 @@ statements, err := p.ExpandStatements("S3ReadPolicy", map[string]interface{}{
 ## Documentation
 
 - [Architecture Overview](docs/ARCHITECTURE.md)
-- [Contributing Guide](CONTRIBUTING.md)
+- [How To Guide](HOWTO.md)
+- [Development Guide](DEVELOPMENT_GUIDE.md)
+- [Policy Templates Reference](docs/POLICY_TEMPLATES.md)
+- [Globals Reference](docs/GLOBALS.md)
 - [Testing Guide](docs/TESTING.md)
 - [Research & Feasibility Analysis](docs/RESEARCH.md)
 - [Changelog](CHANGELOG.md)
 
 ## License
 
-Apache-2.0
+Apache-2.0 - See [LICENSE](LICENSE) and [NOTICE](NOTICE) for details.

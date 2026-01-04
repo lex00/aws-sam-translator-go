@@ -1,0 +1,10 @@
+AWS SAM Translator Go
+Copyright 2024 Albert Artigues
+
+This product includes software developed by Amazon.com, Inc.
+https://github.com/aws/serverless-application-model
+Licensed under the Apache License, Version 2.0
+
+The following files are derived from aws-sam-translator (Apache 2.0):
+- pkg/policy/templates.json (policy template definitions)
+- testdata/* (test fixtures)

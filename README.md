@@ -20,16 +20,19 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 - [x] **Phase 3D**: Additional CloudFormation resource models (DynamoDB, EventBridge, Step Functions, SNS, SQS, S3, CloudWatch Logs)
 - [x] **Phase 4A-4B**: Event source handlers - 9 push sources (S3, SNS, API, HttpApi, Schedule, CloudWatch, Cognito, IoT) and 9 pull sources (SQS, Kinesis, DynamoDB, DocumentDB, MSK, MQ, CloudWatchLogs, SelfManagedKafka, ScheduleV2)
 - [x] **Phase 5A**: AWS::Serverless::Function transformer with event sources, IAM roles, aliases, deployment preferences
-- [x] **Phase 6A-6B**: AWS::Serverless::SimpleTable and AWS::Serverless::LayerVersion transformers
+- [x] **Phase 5B-5C**: AWS::Serverless::SimpleTable and AWS::Serverless::LayerVersion transformers
+- [x] **Phase 6A**: AWS::Serverless::Api transformer with Swagger/OpenAPI, authorizers, CORS, caching
+- [x] **Phase 6B**: AWS::Serverless::HttpApi transformer with JWT/Lambda authorizers, CORS, custom domains
 - [x] **Phase 6C**: AWS::Serverless::StateMachine transformer with logging, tracing, policies
 - [x] **Phase 7A**: AWS::Serverless::Connector transformer with permission profiles for all service pairs
+- [x] **Phase 7B-7C**: AWS::Serverless::Application (nested stacks) and AWS::Serverless::GraphQLApi (AppSync) transformers
 - [x] **Phase 8**: Plugin system with Globals, ImplicitApi, ImplicitHttpApi, PolicyTemplates, DefaultDefinitionBody plugins
 - [x] **Phase 10** (partial): Test fixtures - 2,583 fixtures ported from upstream Python aws-sam-translator
 
 ### In Progress
 
-- [ ] Phase 5B-5C: AWS::Serverless::Api and AWS::Serverless::HttpApi transformers
-- [ ] Phase 9: Main translator orchestration and CLI
+- [ ] Phase 9A: Main translator orchestration
+- [ ] Phase 9B: Command-line interface
 - [ ] Phase 10: Remaining test suite (unit tests, Python comparison tool)
 
 ## Installation

@@ -229,11 +229,11 @@ func TestDefaultDefinitionBodyPlugin_CollectsRoutesFromFunctionEvents(t *testing
 		t.Fatalf("Expected /users path to be set")
 	}
 
-	if _, ok := usersPath["get"]; !ok {
+	if _, exists := usersPath["get"]; !exists {
 		t.Errorf("Expected GET method on /users")
 	}
 
-	if _, ok := usersPath["post"]; !ok {
+	if _, exists := usersPath["post"]; !exists {
 		t.Errorf("Expected POST method on /users")
 	}
 

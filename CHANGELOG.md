@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **AWS::Serverless::HttpApi Transformer** (Phase 6B - #16)
+  - `pkg/sam/httpapi.go` - Complete HttpApi transformer implementation
+  - `pkg/sam/httpapi_test.go` - 31 comprehensive tests
+  - OpenAPI 3.0 definitions (inline DefinitionBody and S3 DefinitionUri)
+  - Stage configuration with AutoDeploy, access logging, and route settings
+  - JWT and Lambda authorizer support
+  - CORS configuration (boolean, string origin, or full configuration object)
+  - Custom domain mapping with certificate and Route 53 integration
+  - Stage variables and tags
+  - Default route throttling and detailed metrics
+
 - **AWS::Serverless::Api Transformer** (Phase 6A - #15)
   - `pkg/sam/api.go` - Complete Api transformer implementation
   - `pkg/sam/api_test.go` - 27 comprehensive tests

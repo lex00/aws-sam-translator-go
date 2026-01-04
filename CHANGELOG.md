@@ -9,20 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **AWS::Serverless::Function Transformer** (Phase 5A - #13)
-  - `pkg/sam/function.go` - Complete Function transformer implementation
-  - Full Function struct with all SAM properties: Handler, Runtime, CodeUri, ImageUri, PackageType, Description, MemorySize, Timeout, Role, Policies, Environment, Events, Tags, Layers, VpcConfig, FunctionName, Architectures, AutoPublishAlias, DeploymentPreference, ProvisionedConcurrencyConfig, ReservedConcurrentExecutions, Tracing, DeadLetterQueue, KmsKeyArn, EphemeralStorage, SnapStart, FileSystemConfigs, ImageConfig, CodeSigningConfigArn, RuntimeManagementConfig, PermissionsBoundary, FunctionUrlConfig, LoggingConfig, RecursiveLoop
-  - Automatic IAM execution role generation with AWSLambdaBasicExecutionRole
-  - VPC configuration support with AWSLambdaVPCAccessExecutionRole
-  - X-Ray tracing support with AWSXRayDaemonWriteAccess policy
-  - Policy processing: managed policy ARNs, inline policy documents, SAM policy templates
-  - Lambda Version and Alias creation via AutoPublishAlias
-  - Provisioned concurrency configuration
-  - CodeDeploy deployment preferences for gradual rollouts
-  - All 17 event source types: S3, SQS, Kinesis, DynamoDB, Api, HttpApi, Schedule, CloudWatchEvent/EventBridgeRule, SNS, IoTRule, Cognito, MSK, MQ, SelfManagedKafka, CloudWatchLogs, AlexaSkill
-  - Push events (S3, Api, SNS, etc.) create Lambda permissions
-  - Pull events (SQS, Kinesis, DynamoDB, etc.) create EventSourceMappings
-  - `pkg/sam/function_test.go` - 37 comprehensive tests with 100% coverage
+- **AWS::Serverless::Connector Transformer** (Phase 7A - #18)
+  - `pkg/sam/connector.go` - Complete Connector transformer implementation
+  - `pkg/sam/connector_profiles.go` - Connector profiles for all service pairs
+  - `pkg/sam/connector_test.go` - 23 comprehensive tests for connector functionality
+  - Source/Destination resource mapping with automatic type resolution
+  - Permission type resolution (Read, Write) with profile-based actions
+  - IAM policy generation for all supported service pairs:
+    - Lambda/Function -> DynamoDB, S3, SQS, SNS, Step Functions, Location, EventBus
+    - SNS/S3/SQS/Events Rule -> Lambda (Lambda permissions)
+    - Events Rule -> SQS (Queue policies), SNS (Topic policies), Step Functions, EventBus
+    - Step Functions -> Lambda, DynamoDB, SQS, SNS, S3, EventBus, Step Functions
+    - API Gateway/HTTP API -> Lambda
+    - AppSync GraphQL API -> Lambda, DynamoDB, EventBus
+  - Embedded connector extraction from resource Connectors property
+  - Policy consolidation for multiple permissions on same resource pair
+  - SAM type normalization (Serverless::Function -> Lambda::Function, etc.)
+  - Proper role reference extraction for policy attachment
 
 - **CloudFormation Model Tests for IoT and Cognito** (Phase 4A - #46)
   - `pkg/cloudformation/iot/topic_rule_test.go` - 100% test coverage for IoT TopicRule model

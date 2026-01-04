@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **AWS::Serverless::Api Transformer** (Phase 6A - #15)
+  - `pkg/sam/api.go` - Complete Api transformer implementation
+  - `pkg/sam/api_test.go` - 27 comprehensive tests
+  - RestApi with Swagger/OpenAPI 2.0 and 3.0 definition support
+  - DefinitionBody and DefinitionUri (S3 location) handling
+  - Stage configuration with variables, caching, tracing
+  - Deployment management with hash-based stable IDs
+  - Authorizers (Cognito User Pools, Lambda TOKEN/REQUEST)
+  - Endpoint configuration (EDGE, REGIONAL, PRIVATE)
+  - CORS configuration support
+  - Binary media types
+  - Access logging configuration
+  - Method settings (logging, metrics, caching, throttling)
+  - Gateway responses
+  - MinimumCompressionSize, FailOnWarnings, DisableExecuteApiEndpoint
+  - Tags support
+
 - **AWS::Serverless::Function Transformer** (Phase 5A - #49)
   - `pkg/sam/function.go` - Complete Function transformer implementation (1,440 lines)
   - `pkg/sam/function_test.go` - Comprehensive tests

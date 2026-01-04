@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Main Translator Orchestrator** (Phase 9A - #21)
+  - `pkg/translator/translator.go` - Main SAM to CloudFormation transformation orchestrator
+  - `pkg/translator/transform.go` - Type parsing functions for SAM structs
+  - `pkg/translator/translator_test.go` - Comprehensive tests (15 test functions)
+  - Template parsing with YAML/JSON support
+  - Plugin lifecycle management (BeforeTransform/AfterTransform hooks)
+  - Resource ordering for dependency management (LayerVersion first, Connectors last)
+  - Support for all SAM resource types:
+    - AWS::Serverless::Function
+    - AWS::Serverless::SimpleTable
+    - AWS::Serverless::LayerVersion
+    - AWS::Serverless::StateMachine
+    - AWS::Serverless::Api
+    - AWS::Serverless::HttpApi
+    - AWS::Serverless::Application
+    - AWS::Serverless::GraphQLApi
+    - AWS::Serverless::Connector
+  - Proper type parsing for nested SAM structs (Auth, Events, CORS, etc.)
+  - Error aggregation for multiple transformation failures
+  - Configurable options (Region, AccountID, StackName, Partition)
+  - Deterministic output with sorted resource keys
+
 - **AWS::Serverless::Application Transformer** (Phase 7B - #19)
   - `pkg/sam/application.go` - Application transformer implementation
   - `pkg/sam/application_test.go` - Comprehensive tests

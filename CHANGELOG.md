@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Command-line Interface** (Phase 9B - #22)
+  - `cmd/sam-translate/main.go` - Full CLI implementation using Cobra
+  - `cmd/sam-translate/main_test.go` - Comprehensive CLI tests
+  - `--template-file` / `-t` flag for input template path (required)
+  - `--output-template` / `-o` flag for output file path
+  - `--stdout` flag to print transformed template to stdout
+  - `--verbose` flag for debug output (template size, transformation progress)
+  - `--region` flag for partition detection (aws, aws-cn, aws-us-gov)
+  - `--version` flag to display version information
+  - `--help` / `-h` flag for usage information
+  - Exit codes matching Python sam-translator:
+    - 0: Success
+    - 1: Transform error (invalid template, file not found)
+    - 2: Invalid arguments
+  - Support for both YAML and JSON input templates
+  - User-friendly error messages with source location info
+
 - **Main Translator Orchestrator** (Phase 9A - #21)
   - `pkg/translator/translator.go` - Main SAM to CloudFormation transformation orchestrator
   - `pkg/translator/transform.go` - Type parsing functions for SAM structs

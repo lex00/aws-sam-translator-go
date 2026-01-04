@@ -31,8 +31,8 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 
 ### In Progress
 
-- [ ] Phase 9A: Main translator orchestration
-- [ ] Phase 9B: Command-line interface
+- [x] Phase 9A: Main translator orchestration
+- [x] Phase 9B: Command-line interface
 - [ ] Phase 10: Remaining test suite (unit tests, Python comparison tool)
 
 ## Installation
@@ -41,7 +41,84 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 go get github.com/lex00/aws-sam-translator-go
 ```
 
-## Usage
+## CLI Usage
+
+The `sam-translate` CLI tool transforms SAM templates to CloudFormation:
+
+```bash
+# Build the CLI
+go build -o sam-translate ./cmd/sam-translate
+
+# Transform a SAM template and write to file
+sam-translate -t template.yaml -o output.yaml
+
+# Transform and print to stdout
+sam-translate -t template.yaml --stdout
+
+# With verbose output
+sam-translate -t template.yaml -o output.yaml --verbose
+
+# Specify AWS region for partition detection
+sam-translate -t template.yaml -o output.yaml --region us-gov-west-1
+
+# Show help
+sam-translate --help
+
+# Show version
+sam-translate --version
+```
+
+### CLI Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--template-file` | `-t` | Path to SAM template file (required) |
+| `--output-template` | `-o` | Path to output CloudFormation template |
+| `--stdout` | | Write output to stdout |
+| `--verbose` | | Enable verbose logging |
+| `--region` | | AWS region for partition detection |
+| `--help` | `-h` | Show help message |
+| `--version` | | Show version information |
+
+### Exit Codes
+
+| Code | Description |
+|------|-------------|
+| 0 | Success |
+| 1 | Transform error (invalid template, file not found) |
+| 2 | Invalid arguments |
+
+## Library Usage
+
+### Template Transformation
+
+```go
+import "github.com/lex00/aws-sam-translator-go/pkg/translator"
+
+// Create a new translator with default options
+tr := translator.New()
+
+// Or with custom options
+tr := translator.NewWithOptions(translator.Options{
+    Region:    "us-west-2",
+    AccountID: "123456789012",
+    StackName: "my-sam-app",
+    Partition: "aws",
+})
+
+// Transform raw YAML/JSON bytes
+input, err := os.ReadFile("template.yaml")
+if err != nil {
+    log.Fatal(err)
+}
+
+output, err := tr.TransformBytes(input)
+if err != nil {
+    log.Fatal(err)
+}
+
+os.WriteFile("output.json", output, 0644)
+```
 
 ### Intrinsic Function Resolution
 

@@ -18,14 +18,18 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 - [x] **Phase 3B**: Lambda CloudFormation resource models (Function, Version, Alias, Permission, EventSourceMapping, LayerVersion)
 - [x] **Phase 3C**: API Gateway CloudFormation resource models (RestApi, Stage, Deployment, Authorizer, Method, Resource; V2 Api, Stage, Integration, Route, Authorizer)
 - [x] **Phase 3D**: Additional CloudFormation resource models (DynamoDB, EventBridge, Step Functions, SNS, SQS, S3, CloudWatch Logs)
+- [x] **Phase 4A-4B**: Event source handlers - 9 push sources (S3, SNS, API, HttpApi, Schedule, CloudWatch, Cognito, IoT) and 9 pull sources (SQS, Kinesis, DynamoDB, DocumentDB, MSK, MQ, CloudWatchLogs, SelfManagedKafka, ScheduleV2)
+- [x] **Phase 5A**: AWS::Serverless::Function transformer with event sources, IAM roles, aliases, deployment preferences
+- [x] **Phase 6A-6B**: AWS::Serverless::SimpleTable and AWS::Serverless::LayerVersion transformers
+- [x] **Phase 6C**: AWS::Serverless::StateMachine transformer with logging, tracing, policies
+- [x] **Phase 7A**: AWS::Serverless::Connector transformer with permission profiles for all service pairs
+- [x] **Phase 8**: Plugin system with Globals, ImplicitApi, ImplicitHttpApi, PolicyTemplates, DefaultDefinitionBody plugins
 - [x] **Phase 10** (partial): Test fixtures - 2,583 fixtures ported from upstream Python aws-sam-translator
 
 ### In Progress
 
-- [ ] Phase 4: Event source connectors
-- [ ] Phase 5-7: SAM resource transformers
-- [ ] Phase 8: Plugin system
-- [ ] Phase 9: Main translator and CLI
+- [ ] Phase 5B-5C: AWS::Serverless::Api and AWS::Serverless::HttpApi transformers
+- [ ] Phase 9: Main translator orchestration and CLI
 - [ ] Phase 10: Remaining test suite (unit tests, Python comparison tool)
 
 ## Installation
@@ -104,6 +108,9 @@ statements, err := p.ExpandStatements("S3ReadPolicy", map[string]interface{}{
 
 ## Documentation
 
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [Contributing Guide](CONTRIBUTING.md)
+- [Testing Guide](docs/TESTING.md)
 - [Research & Feasibility Analysis](docs/RESEARCH.md)
 - [Changelog](CHANGELOG.md)
 

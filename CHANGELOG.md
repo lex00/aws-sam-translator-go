@@ -9,6 +9,86 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **AWS::Serverless::Function Transformer** (Phase 5A - #49)
+  - `pkg/sam/function.go` - Complete Function transformer implementation (1,440 lines)
+  - `pkg/sam/function_test.go` - Comprehensive tests
+  - Event source extraction and transformation for all 18 event types
+  - IAM role auto-creation with AssumeRolePolicyDocument
+  - Policy attachment from Policies property (SAM policy templates, managed ARNs, inline policies)
+  - Lambda alias and version management
+  - Deployment preferences with CodeDeploy integration
+  - Provisioned concurrency configuration
+  - VPC configuration support
+  - Environment variables and tags
+  - Dead letter queue configuration
+  - Tracing and logging settings
+
+- **AWS::Serverless::StateMachine Transformer** (Phase 6C - #48)
+  - `pkg/sam/statemachine.go` - Complete StateMachine transformer implementation (631 lines)
+  - `pkg/sam/statemachine_test.go` - Comprehensive tests
+  - Definition and DefinitionUri resolution
+  - DefinitionSubstitutions for variable replacement
+  - IAM role auto-creation with Step Functions assume role policy
+  - Policies transformation (SAM policy templates, managed ARNs, inline)
+  - Logging configuration with CloudWatch Logs integration
+  - X-Ray tracing configuration
+  - Tags propagation
+  - Event source support (Schedule, CloudWatchEvent, EventBridgeRule, Api)
+
+- **AWS::Serverless::SimpleTable Transformer** (Phase 6A - #40)
+  - `pkg/sam/simpletable.go` - SimpleTable to DynamoDB::Table transformer
+  - `pkg/sam/simpletable_test.go` - Comprehensive tests
+  - Primary key configuration with AttributeName and Type
+  - Provisioned throughput settings
+  - SSE specification support
+  - Table name and tags
+
+- **AWS::Serverless::LayerVersion Transformer** (Phase 6B - #40)
+  - `pkg/sam/layerversion.go` - LayerVersion transformer
+  - `pkg/sam/layerversion_test.go` - Comprehensive tests
+  - ContentUri resolution (S3 location or local path)
+  - Compatible runtimes and architectures
+  - License info and description
+  - Layer name and retention policy
+
+- **Plugin System** (Phase 8 - #39, #20)
+  - `pkg/plugins/plugin.go` - Plugin interface and Registry with priority-based execution
+  - `pkg/plugins/registry_test.go` - Registry tests
+  - `pkg/plugins/globals.go` - GlobalsPlugin: Merges Globals section properties into resources
+  - `pkg/plugins/globals_test.go` - Globals tests
+  - `pkg/plugins/implicit_api.go` - ImplicitRestApiPlugin: Creates implicit REST API from function Api events
+  - `pkg/plugins/implicit_api_test.go` - Implicit REST API tests
+  - `pkg/plugins/implicit_httpapi.go` - ImplicitHttpApiPlugin: Creates implicit HTTP API from function HttpApi events
+  - `pkg/plugins/implicit_httpapi_test.go` - Implicit HTTP API tests
+  - `pkg/plugins/policy_templates.go` - PolicyTemplatesPlugin: Expands SAM policy templates in Policies property
+  - `pkg/plugins/policy_templates_test.go` - Policy templates tests
+  - `pkg/plugins/default_definition_body.go` - DefaultDefinitionBodyPlugin: Sets default OpenAPI definition body
+  - `pkg/plugins/default_definition_body_test.go` - Default definition body tests
+  - BeforeTransform and AfterTransform hooks for template modification
+
+- **Push Event Source Handlers** (Phase 4A)
+  - `pkg/model/eventsources/push/s3.go` - S3 event source with bucket notifications
+  - `pkg/model/eventsources/push/sns.go` - SNS event source with topic subscriptions
+  - `pkg/model/eventsources/push/api.go` - REST API Gateway event source
+  - `pkg/model/eventsources/push/httpapi.go` - HTTP API Gateway (v2) event source
+  - `pkg/model/eventsources/push/schedule.go` - EventBridge Schedule event source
+  - `pkg/model/eventsources/push/cloudwatch.go` - CloudWatch Events/EventBridge Rules
+  - `pkg/model/eventsources/push/cognito.go` - Cognito User Pool triggers
+  - `pkg/model/eventsources/push/iot.go` - IoT Rule event source
+  - Full test coverage for all push event handlers
+
+- **Pull Event Source Handlers** (Phase 4B)
+  - `pkg/model/eventsources/pull/sqs.go` - SQS queue polling with batch settings
+  - `pkg/model/eventsources/pull/kinesis.go` - Kinesis stream with starting position, parallelization
+  - `pkg/model/eventsources/pull/dynamodb.go` - DynamoDB Streams with batch and filter settings
+  - `pkg/model/eventsources/pull/documentdb.go` - DocumentDB change streams
+  - `pkg/model/eventsources/pull/msk.go` - Amazon MSK (Managed Streaming for Kafka)
+  - `pkg/model/eventsources/pull/mq.go` - Amazon MQ (ActiveMQ, RabbitMQ)
+  - `pkg/model/eventsources/pull/cloudwatchlogs.go` - CloudWatch Logs subscription
+  - `pkg/model/eventsources/pull/selfmanagedkafka.go` - Self-managed Kafka clusters
+  - `pkg/model/eventsources/pull/schedulev2.go` - EventBridge Scheduler (v2)
+  - Full test coverage for all pull event handlers
+
 - **AWS::Serverless::Connector Transformer** (Phase 7A - #18)
   - `pkg/sam/connector.go` - Complete Connector transformer implementation
   - `pkg/sam/connector_profiles.go` - Connector profiles for all service pairs

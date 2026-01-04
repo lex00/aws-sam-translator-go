@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **AWS::Serverless::Application Transformer** (Phase 7B - #19)
+  - `pkg/sam/application.go` - Application transformer implementation
+  - `pkg/sam/application_test.go` - Comprehensive tests
+  - Transform to `AWS::CloudFormation::Stack` (nested stack)
+  - ApplicationId resolution for SAR applications with Fn::Transform
+  - SemanticVersion handling
+  - Parameter passing to nested applications
+  - NotificationArns and Tags propagation
+  - TimeoutInMinutes setting
+  - S3 location support with Bucket/Key/Version
+  - Support for intrinsic functions in location
+
+- **AWS::Serverless::GraphQLApi Transformer** (Phase 7C - #19)
+  - `pkg/sam/graphqlapi.go` - GraphQLApi transformer implementation
+  - `pkg/sam/graphqlapi_test.go` - Comprehensive tests
+  - Transform to `AWS::AppSync::GraphQLApi` and related resources
+  - Schema management (SchemaUri, SchemaInline)
+  - Authentication configuration (API_KEY, AWS_IAM, COGNITO, OIDC, LAMBDA)
+  - Additional authentication providers support
+  - Data source configuration (Lambda, DynamoDB, HTTP, OpenSearch, EventBridge, etc.)
+  - Auto-generated IAM roles for data sources
+  - Resolver mappings (VTL and JavaScript runtime)
+  - Pipeline resolvers with functions
+  - Logging configuration with CloudWatch role
+  - X-Ray tracing
+  - Cache configuration
+  - API key management
+  - Custom domain name configuration
+
 - **AWS::Serverless::HttpApi Transformer** (Phase 6B - #16)
   - `pkg/sam/httpapi.go` - Complete HttpApi transformer implementation
   - `pkg/sam/httpapi_test.go` - 31 comprehensive tests

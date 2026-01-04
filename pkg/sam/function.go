@@ -935,21 +935,13 @@ func (t *FunctionTransformer) buildScheduleEvent(logicalID, eventName string, pr
 
 	// Create EventBridge Rule
 	ruleID := logicalID + eventName
-
-	// Build target with optional input configuration
-	target := map[string]interface{}{
-		"Arn": functionRef,
-		"Id":  logicalID,
-	}
-	if input, ok := props["Input"]; ok {
-		target["Input"] = input
-	}
-	if inputPath, ok := props["InputPath"]; ok {
-		target["InputPath"] = inputPath
-	}
-
 	ruleProps := map[string]interface{}{
-		"Targets": []interface{}{target},
+		"Targets": []interface{}{
+			map[string]interface{}{
+				"Arn": functionRef,
+				"Id":  logicalID,
+			},
+		},
 	}
 
 	if schedule, ok := props["Schedule"]; ok {
@@ -966,6 +958,20 @@ func (t *FunctionTransformer) buildScheduleEvent(logicalID, eventName string, pr
 	} else if enabled, ok := props["Enabled"]; ok {
 		if enabled == false {
 			ruleProps["State"] = "DISABLED"
+		}
+	}
+	if input, ok := props["Input"]; ok {
+		if targets, ok := ruleProps["Targets"].([]interface{}); ok && len(targets) > 0 {
+			if target, ok := targets[0].(map[string]interface{}); ok {
+				target["Input"] = input
+			}
+		}
+	}
+	if inputPath, ok := props["InputPath"]; ok {
+		if targets, ok := ruleProps["Targets"].([]interface{}); ok && len(targets) > 0 {
+			if target, ok := targets[0].(map[string]interface{}); ok {
+				target["InputPath"] = inputPath
+			}
 		}
 	}
 
@@ -997,21 +1003,13 @@ func (t *FunctionTransformer) buildCloudWatchEvent(logicalID, eventName string, 
 
 	// Create EventBridge Rule
 	ruleID := logicalID + eventName
-
-	// Build target with optional input configuration
-	target := map[string]interface{}{
-		"Arn": functionRef,
-		"Id":  logicalID,
-	}
-	if input, ok := props["Input"]; ok {
-		target["Input"] = input
-	}
-	if inputPath, ok := props["InputPath"]; ok {
-		target["InputPath"] = inputPath
-	}
-
 	ruleProps := map[string]interface{}{
-		"Targets": []interface{}{target},
+		"Targets": []interface{}{
+			map[string]interface{}{
+				"Arn": functionRef,
+				"Id":  logicalID,
+			},
+		},
 	}
 
 	if pattern, ok := props["Pattern"]; ok {
@@ -1025,6 +1023,20 @@ func (t *FunctionTransformer) buildCloudWatchEvent(logicalID, eventName string, 
 	}
 	if state, ok := props["State"]; ok {
 		ruleProps["State"] = state
+	}
+	if input, ok := props["Input"]; ok {
+		if targets, ok := ruleProps["Targets"].([]interface{}); ok && len(targets) > 0 {
+			if target, ok := targets[0].(map[string]interface{}); ok {
+				target["Input"] = input
+			}
+		}
+	}
+	if inputPath, ok := props["InputPath"]; ok {
+		if targets, ok := ruleProps["Targets"].([]interface{}); ok && len(targets) > 0 {
+			if target, ok := targets[0].(map[string]interface{}); ok {
+				target["InputPath"] = inputPath
+			}
+		}
 	}
 
 	resources[ruleID] = map[string]interface{}{
@@ -1101,30 +1113,29 @@ func (t *FunctionTransformer) buildIoTRuleEvent(logicalID, eventName string, pro
 
 	// Create IoT TopicRule
 	ruleID := logicalID + eventName
-
-	// Build the topic rule payload with optional properties
-	topicRulePayload := map[string]interface{}{
-		"Actions": []interface{}{
-			map[string]interface{}{
-				"Lambda": map[string]interface{}{
-					"FunctionArn": functionRef,
+	ruleProps := map[string]interface{}{
+		"TopicRulePayload": map[string]interface{}{
+			"Actions": []interface{}{
+				map[string]interface{}{
+					"Lambda": map[string]interface{}{
+						"FunctionArn": functionRef,
+					},
 				},
 			},
+			"RuleDisabled": false,
 		},
-		"RuleDisabled": false,
-	}
-	if sql, ok := props["Sql"]; ok {
-		topicRulePayload["Sql"] = sql
-	}
-	if sqlVersion, ok := props["AwsIotSqlVersion"]; ok {
-		topicRulePayload["AwsIotSqlVersion"] = sqlVersion
-	}
-	if desc, ok := props["Description"]; ok {
-		topicRulePayload["Description"] = desc
 	}
 
-	ruleProps := map[string]interface{}{
-		"TopicRulePayload": topicRulePayload,
+	if payload, ok := ruleProps["TopicRulePayload"].(map[string]interface{}); ok {
+		if sql, ok := props["Sql"]; ok {
+			payload["Sql"] = sql
+		}
+		if sqlVersion, ok := props["AwsIotSqlVersion"]; ok {
+			payload["AwsIotSqlVersion"] = sqlVersion
+		}
+		if desc, ok := props["Description"]; ok {
+			payload["Description"] = desc
+		}
 	}
 
 	resources[ruleID] = map[string]interface{}{

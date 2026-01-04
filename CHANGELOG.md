@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **OpenAPI/Swagger Generation** (#58)
+  - `pkg/openapi/openapi.go` - Full OpenAPI generation implementation
+  - `pkg/openapi/openapi_test.go` - Comprehensive tests (18 test cases)
+  - `GenerateSwagger()` - Generates Swagger 2.0 specifications
+  - `GenerateOpenAPI3()` - Generates OpenAPI 3.0 specifications
+  - `MergeRoutes()` - Merges routes into existing OpenAPI specs
+  - `AddCorsToSpec()` - Adds CORS configuration to specs
+  - `AddSecurityDefinitions()` - Adds authorizer configurations
+  - `x-amazon-apigateway-integration` extensions for Lambda proxy integration
+  - Automatic route collection from function Api/HttpApi events
+  - Support for path parameters, request parameters, and auth settings
+  - Updated `DefaultDefinitionBodyPlugin` to use OpenAPI generator:
+    - Changed priority from 200 to 500 (runs after implicit API plugins)
+    - Collects routes from function events automatically
+    - Generates proper OpenAPI specs with Lambda integrations
+    - Uses Swagger 2.0 for `AWS::Serverless::Api`
+    - Uses OpenAPI 3.0 for `AWS::Serverless::HttpApi`
+
 - **Comprehensive Test Suite** (Phase 10 - #23)
   - `pkg/translator/fixture_test.go` - Integration tests using all 2,583 test fixtures
   - `pkg/translator/benchmark_test.go` - Performance benchmarks for translator

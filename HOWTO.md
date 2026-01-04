@@ -294,7 +294,37 @@ Resources:
 
 ### OpenAPI Generation
 
-When using `AWS::Serverless::Api` without a `DefinitionBody`, a minimal OpenAPI specification is generated. For complex API configurations, provide your own OpenAPI definition:
+When using `AWS::Serverless::Api` or `AWS::Serverless::HttpApi` without a `DefinitionBody`, the translator automatically generates a complete OpenAPI specification from function events:
+
+```yaml
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs18.x
+      CodeUri: ./src
+      Events:
+        HelloApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: GET
+        CreateApi:
+          Type: Api
+          Properties:
+            Path: /items
+            Method: POST
+```
+
+The translator will automatically:
+- Generate a Swagger 2.0 spec for `AWS::Serverless::Api`
+- Generate an OpenAPI 3.0 spec for `AWS::Serverless::HttpApi`
+- Add `x-amazon-apigateway-integration` extensions with Lambda proxy integration
+- Extract path parameters from routes (e.g., `/users/{id}`)
+- Merge routes into existing `DefinitionBody` if provided
+
+For advanced configurations, you can still provide your own OpenAPI definition:
 
 ```yaml
 Resources:

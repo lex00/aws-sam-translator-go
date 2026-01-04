@@ -53,6 +53,7 @@ This document describes the architecture of aws-sam-translator-go, a Go implemen
 | `pkg/intrinsics` | Intrinsic function resolution | `Registry`, `ResolveContext`, `Action` |
 | `pkg/sam` | SAM resource transformers | `FunctionTransformer`, `ConnectorTransformer`, etc. |
 | `pkg/plugins` | Plugin system | `Plugin`, `Registry`, built-in plugins |
+| `pkg/openapi` | OpenAPI/Swagger generation | `Generator`, `Route`, `GenerateSwagger()`, `GenerateOpenAPI3()` |
 | `pkg/translator` | ID and ARN generation | `LogicalIdGenerator`, `ArnGenerator` |
 | `pkg/policy` | Policy template expansion | `Processor`, 81 embedded templates |
 | `pkg/region` | AWS region/partition config | `GetPartitionForRegion()`, `GetArnPartition()` |
@@ -181,11 +182,11 @@ type Plugin interface {
 
 | Plugin | Priority | Purpose |
 |--------|----------|---------|
-| GlobalsPlugin | 10 | Merges Globals section into resources |
-| PolicyTemplatesPlugin | 20 | Expands SAM policy templates |
-| ImplicitRestApiPlugin | 30 | Creates implicit REST API from Api events |
-| ImplicitHttpApiPlugin | 30 | Creates implicit HTTP API from HttpApi events |
-| DefaultDefinitionBodyPlugin | 40 | Sets default OpenAPI definition body |
+| GlobalsPlugin | 100 | Merges Globals section into resources |
+| ImplicitRestApiPlugin | 300 | Creates implicit REST API from Api events |
+| ImplicitHttpApiPlugin | 310 | Creates implicit HTTP API from HttpApi events |
+| PolicyTemplatesPlugin | 400 | Expands SAM policy templates |
+| DefaultDefinitionBodyPlugin | 500 | Generates OpenAPI specs from function events |
 
 ### 5. Event Source Handlers
 

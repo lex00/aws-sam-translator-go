@@ -4,7 +4,7 @@ A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-
 
 ## Status
 
-**Work in Progress** - See the [Implementation Roadmap](https://github.com/lex00/aws-sam-translator-go/issues/24) for current progress.
+**Production Ready** - All phases complete. See the [Implementation Roadmap](https://github.com/lex00/aws-sam-translator-go/issues/24) for details.
 
 ### Completed
 

@@ -935,13 +935,21 @@ func (t *FunctionTransformer) buildScheduleEvent(logicalID, eventName string, pr
 
 	// Create EventBridge Rule
 	ruleID := logicalID + eventName
+
+	// Build target with optional input configuration
+	target := map[string]interface{}{
+		"Arn": functionRef,
+		"Id":  logicalID,
+	}
+	if input, ok := props["Input"]; ok {
+		target["Input"] = input
+	}
+	if inputPath, ok := props["InputPath"]; ok {
+		target["InputPath"] = inputPath
+	}
+
 	ruleProps := map[string]interface{}{
-		"Targets": []interface{}{
-			map[string]interface{}{
-				"Arn": functionRef,
-				"Id":  logicalID,
-			},
-		},
+		"Targets": []interface{}{target},
 	}
 
 	if schedule, ok := props["Schedule"]; ok {
@@ -959,14 +967,6 @@ func (t *FunctionTransformer) buildScheduleEvent(logicalID, eventName string, pr
 		if enabled == false {
 			ruleProps["State"] = "DISABLED"
 		}
-	}
-	if input, ok := props["Input"]; ok {
-		targets := ruleProps["Targets"].([]interface{})
-		targets[0].(map[string]interface{})["Input"] = input
-	}
-	if inputPath, ok := props["InputPath"]; ok {
-		targets := ruleProps["Targets"].([]interface{})
-		targets[0].(map[string]interface{})["InputPath"] = inputPath
 	}
 
 	resources[ruleID] = map[string]interface{}{
@@ -997,13 +997,21 @@ func (t *FunctionTransformer) buildCloudWatchEvent(logicalID, eventName string, 
 
 	// Create EventBridge Rule
 	ruleID := logicalID + eventName
+
+	// Build target with optional input configuration
+	target := map[string]interface{}{
+		"Arn": functionRef,
+		"Id":  logicalID,
+	}
+	if input, ok := props["Input"]; ok {
+		target["Input"] = input
+	}
+	if inputPath, ok := props["InputPath"]; ok {
+		target["InputPath"] = inputPath
+	}
+
 	ruleProps := map[string]interface{}{
-		"Targets": []interface{}{
-			map[string]interface{}{
-				"Arn": functionRef,
-				"Id":  logicalID,
-			},
-		},
+		"Targets": []interface{}{target},
 	}
 
 	if pattern, ok := props["Pattern"]; ok {
@@ -1017,14 +1025,6 @@ func (t *FunctionTransformer) buildCloudWatchEvent(logicalID, eventName string, 
 	}
 	if state, ok := props["State"]; ok {
 		ruleProps["State"] = state
-	}
-	if input, ok := props["Input"]; ok {
-		targets := ruleProps["Targets"].([]interface{})
-		targets[0].(map[string]interface{})["Input"] = input
-	}
-	if inputPath, ok := props["InputPath"]; ok {
-		targets := ruleProps["Targets"].([]interface{})
-		targets[0].(map[string]interface{})["InputPath"] = inputPath
 	}
 
 	resources[ruleID] = map[string]interface{}{
@@ -1101,27 +1101,30 @@ func (t *FunctionTransformer) buildIoTRuleEvent(logicalID, eventName string, pro
 
 	// Create IoT TopicRule
 	ruleID := logicalID + eventName
-	ruleProps := map[string]interface{}{
-		"TopicRulePayload": map[string]interface{}{
-			"Actions": []interface{}{
-				map[string]interface{}{
-					"Lambda": map[string]interface{}{
-						"FunctionArn": functionRef,
-					},
+
+	// Build the topic rule payload with optional properties
+	topicRulePayload := map[string]interface{}{
+		"Actions": []interface{}{
+			map[string]interface{}{
+				"Lambda": map[string]interface{}{
+					"FunctionArn": functionRef,
 				},
 			},
-			"RuleDisabled": false,
 		},
+		"RuleDisabled": false,
 	}
-
 	if sql, ok := props["Sql"]; ok {
-		ruleProps["TopicRulePayload"].(map[string]interface{})["Sql"] = sql
+		topicRulePayload["Sql"] = sql
 	}
 	if sqlVersion, ok := props["AwsIotSqlVersion"]; ok {
-		ruleProps["TopicRulePayload"].(map[string]interface{})["AwsIotSqlVersion"] = sqlVersion
+		topicRulePayload["AwsIotSqlVersion"] = sqlVersion
 	}
 	if desc, ok := props["Description"]; ok {
-		ruleProps["TopicRulePayload"].(map[string]interface{})["Description"] = desc
+		topicRulePayload["Description"] = desc
+	}
+
+	ruleProps := map[string]interface{}{
+		"TopicRulePayload": topicRulePayload,
 	}
 
 	resources[ruleID] = map[string]interface{}{
@@ -1406,12 +1409,13 @@ func (t *FunctionTransformer) buildDeploymentPreference(logicalID string, f *Fun
 	// Add hooks if specified
 	if hooks, ok := deployPref["Hooks"]; ok {
 		if hooksMap, ok := hooks.(map[string]interface{}); ok {
-			deploymentGroupDeploymentStyle := groupProps["DeploymentStyle"].(map[string]interface{})
-			if preTraffic, ok := hooksMap["PreTraffic"]; ok {
-				deploymentGroupDeploymentStyle["PreTrafficHook"] = preTraffic
-			}
-			if postTraffic, ok := hooksMap["PostTraffic"]; ok {
-				deploymentGroupDeploymentStyle["PostTrafficHook"] = postTraffic
+			if deploymentGroupDeploymentStyle, ok := groupProps["DeploymentStyle"].(map[string]interface{}); ok {
+				if preTraffic, ok := hooksMap["PreTraffic"]; ok {
+					deploymentGroupDeploymentStyle["PreTrafficHook"] = preTraffic
+				}
+				if postTraffic, ok := hooksMap["PostTraffic"]; ok {
+					deploymentGroupDeploymentStyle["PostTrafficHook"] = postTraffic
+				}
 			}
 		}
 	}

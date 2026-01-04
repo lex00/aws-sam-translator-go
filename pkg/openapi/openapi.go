@@ -98,16 +98,15 @@ type RequestParameter struct {
 
 // GenerateSwagger generates a Swagger 2.0 specification.
 func (g *Generator) GenerateSwagger(routes []Route) (map[string]interface{}, error) {
+	paths := make(map[string]interface{})
 	spec := map[string]interface{}{
 		"swagger": "2.0",
 		"info": map[string]interface{}{
 			"title":   g.Title,
 			"version": g.Version,
 		},
-		"paths": make(map[string]interface{}),
+		"paths": paths,
 	}
-
-	paths := spec["paths"].(map[string]interface{})
 
 	for _, route := range routes {
 		if err := g.addSwaggerRoute(paths, route); err != nil {
@@ -120,16 +119,15 @@ func (g *Generator) GenerateSwagger(routes []Route) (map[string]interface{}, err
 
 // GenerateOpenAPI3 generates an OpenAPI 3.0 specification.
 func (g *Generator) GenerateOpenAPI3(routes []Route) (map[string]interface{}, error) {
+	paths := make(map[string]interface{})
 	spec := map[string]interface{}{
 		"openapi": "3.0.1",
 		"info": map[string]interface{}{
 			"title":   g.Title,
 			"version": g.Version,
 		},
-		"paths": make(map[string]interface{}),
+		"paths": paths,
 	}
-
-	paths := spec["paths"].(map[string]interface{})
 
 	for _, route := range routes {
 		if err := g.addOpenAPI3Route(paths, route); err != nil {
@@ -672,13 +670,14 @@ func (g *Generator) buildSecuritySchemeOpenAPI3(config interface{}) map[string]i
 	// Check for JWT authorizer (HttpApi)
 	if jwtConfig, ok := configMap["JwtConfiguration"]; ok {
 		scheme["type"] = "oauth2"
-		scheme["x-amazon-apigateway-authorizer"] = map[string]interface{}{
+		authorizer := map[string]interface{}{
 			"type":             "jwt",
 			"jwtConfiguration": jwtConfig,
 		}
 		if identitySource, ok := configMap["IdentitySource"]; ok {
-			scheme["x-amazon-apigateway-authorizer"].(map[string]interface{})["identitySource"] = identitySource
+			authorizer["identitySource"] = identitySource
 		}
+		scheme["x-amazon-apigateway-authorizer"] = authorizer
 		return scheme
 	}
 

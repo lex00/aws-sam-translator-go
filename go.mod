@@ -3,7 +3,7 @@ module github.com/lex00/aws-sam-translator-go
 go 1.23
 
 require (
-	github.com/lex00/cloudformation-schema-go v0.7.0
+	github.com/lex00/cloudformation-schema-go v1.0.0
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
 )

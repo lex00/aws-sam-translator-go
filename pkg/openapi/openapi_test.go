@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"encoding/json"
 	"testing"
 )
 
@@ -96,7 +95,7 @@ func TestGenerateSwagger(t *testing.T) {
 	}
 
 	// Check POST method exists
-	if _, ok := usersPath["post"]; !ok {
+	if _, exists := usersPath["post"]; !exists {
 		t.Error("expected POST method on /users")
 	}
 
@@ -675,10 +674,4 @@ func TestValidationErrors(t *testing.T) {
 	if err == nil {
 		t.Error("expected error for missing path")
 	}
-}
-
-// Helper function to pretty print JSON for debugging
-func prettyJSON(v interface{}) string {
-	b, _ := json.MarshalIndent(v, "", "  ")
-	return string(b)
 }

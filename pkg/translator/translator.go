@@ -15,7 +15,7 @@ import (
 )
 
 // Version is the translator library version.
-const Version = "0.1.0"
+const Version = "1.0.0"
 
 // SAMTransform is the SAM transform identifier.
 const SAMTransform = "AWS::Serverless-2016-10-31"

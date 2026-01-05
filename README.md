@@ -1,5 +1,10 @@
 # aws-sam-translator-go
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/lex00/aws-sam-translator-go.svg)](https://pkg.go.dev/github.com/lex00/aws-sam-translator-go)
+[![CI](https://github.com/lex00/aws-sam-translator-go/actions/workflows/ci.yml/badge.svg)](https://github.com/lex00/aws-sam-translator-go/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lex00/aws-sam-translator-go)](https://goreportcard.com/report/github.com/lex00/aws-sam-translator-go)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-model) for transforming AWS SAM templates to CloudFormation.
 
 ## Status

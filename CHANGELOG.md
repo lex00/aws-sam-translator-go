@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Automatic version detection for `go install`** (#66)
+  - `cmd/sam-translate/version.go` - Version resolution using `runtime/debug.ReadBuildInfo()`
+  - CLI now shows correct version when installed via `go install pkg@version`
+  - Falls back to ldflags-set version or "dev" when build info unavailable
+  - Maintains backward compatibility with existing `-ldflags "-X main.Version=..."` builds
+
 ## [1.0.0] - 2026-01-03
 
 ### Added

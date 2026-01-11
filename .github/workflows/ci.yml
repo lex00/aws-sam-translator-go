@@ -29,11 +29,12 @@ jobs:
       - name: Run tests
         run: go test -v -race -coverprofile=coverage.out ./...
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage to Codecov
+        if: matrix.go-version == '1.23'
+        uses: codecov/codecov-action@v5
         with:
-          name: coverage-${{ matrix.go-version }}
-          path: coverage.out
+          files: coverage.out
+          fail_ci_if_error: false
 
   lint:
     name: Lint

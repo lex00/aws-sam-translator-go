@@ -1,9 +1,11 @@
 # aws-sam-translator-go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/lex00/aws-sam-translator-go.svg)](https://pkg.go.dev/github.com/lex00/aws-sam-translator-go)
 [![CI](https://github.com/lex00/aws-sam-translator-go/actions/workflows/ci.yml/badge.svg)](https://github.com/lex00/aws-sam-translator-go/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/lex00/aws-sam-translator-go/branch/main/graph/badge.svg)](https://codecov.io/gh/lex00/aws-sam-translator-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lex00/aws-sam-translator-go.svg)](https://pkg.go.dev/github.com/lex00/aws-sam-translator-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lex00/aws-sam-translator-go)](https://goreportcard.com/report/github.com/lex00/aws-sam-translator-go)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Release](https://img.shields.io/github/v/release/lex00/aws-sam-translator-go.svg)](https://github.com/lex00/aws-sam-translator-go/releases)
 
 A Go port of [aws-sam-translator](https://github.com/aws/serverless-application-model) for transforming AWS SAM templates to CloudFormation.
 
@@ -215,4 +217,4 @@ statements, err := p.ExpandStatements("S3ReadPolicy", map[string]interface{}{
 
 ## License
 
-Apache-2.0 - See [LICENSE](LICENSE) and [NOTICE](NOTICE) for details.
+MIT

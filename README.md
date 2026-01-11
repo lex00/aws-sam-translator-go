@@ -42,8 +42,20 @@ All phases of the implementation are now complete. The translator is feature-com
 
 ## Installation
 
+### Library
+
 ```bash
 go get github.com/lex00/aws-sam-translator-go
+```
+
+### CLI
+
+```bash
+# Install via go install (recommended)
+go install github.com/lex00/aws-sam-translator-go/cmd/sam-translate@latest
+
+# Or build from source
+go build -o sam-translate ./cmd/sam-translate
 ```
 
 ## CLI Usage
@@ -51,8 +63,7 @@ go get github.com/lex00/aws-sam-translator-go
 The `sam-translate` CLI tool transforms SAM templates to CloudFormation:
 
 ```bash
-# Build the CLI
-go build -o sam-translate ./cmd/sam-translate
+# If installed via go install, the binary is available in your PATH
 
 # Transform a SAM template and write to file
 sam-translate -t template.yaml -o output.yaml

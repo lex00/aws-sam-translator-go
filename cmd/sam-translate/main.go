@@ -12,9 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Version is set at build time.
-var Version = "dev"
-
 // Exit codes matching Python sam-translator.
 const (
 	ExitSuccess        = 0
@@ -46,7 +43,7 @@ func newRootCmd() *cobra.Command {
 		Use:     "sam-translate",
 		Short:   "Transform SAM templates to CloudFormation",
 		Long:    `sam-translate transforms AWS Serverless Application Model (SAM) templates to standard CloudFormation templates.`,
-		Version: fmt.Sprintf("%s (translator: %s)", Version, translator.Version),
+		Version: fmt.Sprintf("%s (translator: %s)", getVersion(), translator.Version),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Validate that template file is provided
 			if opts.TemplateFile == "" {
